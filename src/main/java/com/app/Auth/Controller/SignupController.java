@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class SignupController {
 
@@ -23,7 +25,8 @@ public class SignupController {
     @PostMapping("/signup")
     public ResponseEntity<String> SignupRequest (@Valid @RequestBody SignUpDTO user , BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return ResponseEntity.badRequest().body("Signup Unsuccessful : " + bindingResult.getAllErrors().);
+            List currentErrors = bindingResult.getAllErrors();
+            return ResponseEntity.badRequest().body("Signup Unsuccessful : " + currentErrors.get(0));
         }
         signupService.register(user);
         return ResponseEntity.ok("User Registered Successfully");

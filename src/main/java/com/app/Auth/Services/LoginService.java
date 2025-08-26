@@ -1,25 +1,39 @@
 package com.app.Auth.Services;
 
+import com.app.Auth.DTOs.LoginDTO;
 import com.app.Auth.Repository.UserRepository;
 import com.app.Auth.UserEnitiy.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LoginService implements UserDetailsService {
+public class LoginService  {
 
     private final UserRepository userRepository ;
 
-    public LoginService(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder ;
+    public LoginService(UserRepository userRepository , PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public String loginUser(LoginDTO loginDTO){
+        if(userRepository.findByUsername(loginDTO.getUsername()).isPresent()){
+            String password = userRepository.findByUsername(loginDTO.getUsername()).get().getPassword();
 
-        return  userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User Not Found : " + username));
+            if(passwordEncoder.matches(loginDTO.getPassword() , password)){
+                return "LOGIN SUCCESSFULL";
+            }
 
+            return "Wrong Password";
+        }
+
+        return "Username does not Exist";
     }
+
+
+
 }

@@ -2,6 +2,7 @@ package com.app.Auth.DTOs;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.springframework.validation.annotation.Validated;
 
 public class SignUpDTO {
 

@@ -28,6 +28,8 @@ public class User implements UserDetails {
 
     private boolean credentials_non_expired = false ;
 
+    public User() {}
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
