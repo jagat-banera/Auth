@@ -33,7 +33,7 @@ public class SignupService {
         String encodedPassword = passwordEncoder.encode(DTOuser.getPassword());
 
         // Convert the DTO object to User
-        User user = new User(DTOuser.getUsername() ,encodedPassword);
+        User user = new User(DTOuser.getUsername() ,encodedPassword , DTOuser.getEmail() );
 
         userRepository.save(user);
 

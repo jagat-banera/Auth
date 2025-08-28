@@ -1,6 +1,7 @@
 package com.app.Auth.UserEnitiy;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,11 @@ public class User implements UserDetails {
     private String password ;
     private String role = "ROLE_ADMIN";
 
+
+
+
+    private String email ;
+
     private boolean enabled = true ;
 
     private boolean account_non_expired = false ;
@@ -30,9 +36,10 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String username, String password) {
+    public User(String username, String password , String email ) {
         this.username = username;
         this.password = password;
+        this.email = email ;
     }
 
 
@@ -50,6 +57,9 @@ public class User implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+
+    public String getEmail() {return email;}
 
     @Override
     public boolean isAccountNonExpired() {

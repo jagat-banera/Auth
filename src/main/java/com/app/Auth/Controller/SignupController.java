@@ -31,5 +31,4 @@ public class SignupController {
         signupService.register(user);
         return ResponseEntity.ok("User Registered Successfully");
     }
-
 }

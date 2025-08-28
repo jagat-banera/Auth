@@ -1,5 +1,9 @@
 package com.app.Auth.DTOs;
 
+import com.app.Auth.Validator.UniqueEmail;
+import com.app.Auth.Validator.UniqueUsername;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.springframework.validation.annotation.Validated;
@@ -7,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 public class SignUpDTO {
 
 
+    @UniqueUsername
     @NotEmpty(message = "Username is required")
     private String username ;
 
@@ -15,11 +20,20 @@ public class SignUpDTO {
     private String password ;
 
 
+    @UniqueEmail
+    @NotEmpty(message = "Email is Required")
+    @Email
+    private String email ;
+
     private String role = "ROLE_ADMIN";
 
     // Getters
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
