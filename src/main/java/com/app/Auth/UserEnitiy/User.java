@@ -61,6 +61,11 @@ public class User implements UserDetails {
 
     public String getEmail() {return email;}
 
+    public long getId(){
+        return id;
+    }
+
+
     @Override
     public boolean isAccountNonExpired() {
         return true ;
