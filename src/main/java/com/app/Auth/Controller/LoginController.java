@@ -5,15 +5,18 @@ import com.app.Auth.DTOs.LoginDTO;
 import com.app.Auth.DTOs.authResult;
 import com.app.Auth.Services.LoginService;
 import com.app.Auth.Services.jwtService;
+import com.app.Auth.Utils.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,22 +31,26 @@ public class LoginController {
     }
 
     @PostMapping("/login-user")
-    public ResponseEntity<?> setHello(@Valid @RequestBody LoginDTO loginDTO , BindingResult bindingResult) {
+    public ResponseEntity<ApiResponse<String>> setHello(@Valid @RequestBody LoginDTO loginDTO , BindingResult bindingResult) {
 
-
+        // Check for Validation Errors
         if(bindingResult.hasErrors()){
-            return ResponseEntity.badRequest().body(Map.of("error" , "username or password is empty"));
+            List loginError = bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).toList();
+
+            return ResponseEntity.badRequest().body(new ApiResponse<String>("error" , loginError , null));
         }
 
-
+        // Check for DB Errors while Inserting
         authResult result = loginService.loginUser(loginDTO);
         boolean loginStatus = result.getStatus();
 
+        //
         if(!loginStatus){
-            return ResponseEntity.badRequest().body(Map.of("error" , result.getMessage()));
+            return ResponseEntity.badRequest().body(new ApiResponse<String>("error" , List.of(result.getMessage()) , null ) );
         }
 
-        return ResponseEntity.ok().body(Map.of("success" , result.getMessage() , "token" , jwt.generateToken(loginDTO.getUsername()) ));
+        return ResponseEntity.ok()
+                .body(new ApiResponse<String>("success" , List.of(result.getMessage()) ,  jwt.generateToken(loginDTO.getUsername()) ));
     }
 
 }
