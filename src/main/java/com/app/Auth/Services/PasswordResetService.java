@@ -63,8 +63,11 @@ public class PasswordResetService {
             }
 
             // A Valid Token is found
+            // Change the isUsed to true and save in DB
+            passwordReset saveUser = resetUser.get(); // Optional --> Entity
+            saveUser.setUsed(true);
+            passwordResetRepo.save(saveUser);
             return true ;
-
         }
 
         // Token not found

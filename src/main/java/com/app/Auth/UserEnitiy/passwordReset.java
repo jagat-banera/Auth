@@ -50,4 +50,8 @@ public class passwordReset{
         return created_at;
     }
 
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 }

@@ -10,4 +10,5 @@ public class ResetPasswordDTO {
     public String getToken() {
         return token;
     }
+
 }
