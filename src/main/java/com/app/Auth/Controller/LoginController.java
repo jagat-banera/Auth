@@ -31,13 +31,13 @@ public class LoginController {
     }
 
     @PostMapping("/login-user")
-    public ResponseEntity<ApiResponse<String>> setHello(@Valid @RequestBody LoginDTO loginDTO , BindingResult bindingResult) {
+    public ResponseEntity<ApiResponse<Map<String,String>>> setHello(@Valid @RequestBody LoginDTO loginDTO , BindingResult bindingResult) {
 
         // Check for Validation Errors
         if(bindingResult.hasErrors()){
             List loginError = bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).toList();
 
-            return ResponseEntity.badRequest().body(new ApiResponse<String>("error" , loginError , null));
+            return ResponseEntity.badRequest().body(new ApiResponse<Map<String,String>>("error" , loginError , null));
         }
 
         // Check for DB Errors while Inserting
@@ -46,11 +46,17 @@ public class LoginController {
 
         //
         if(!loginStatus){
-            return ResponseEntity.badRequest().body(new ApiResponse<String>("error" , List.of(result.getMessage()) , null ) );
+            return ResponseEntity.badRequest().body(new ApiResponse<Map<String,String>>("error" , List.of(result.getMessage()) , null ) );
         }
 
         return ResponseEntity.ok()
-                .body(new ApiResponse<String>("success" , List.of(result.getMessage()) ,  jwt.generateToken(loginDTO.getUsername()) ));
+                .body(new ApiResponse<Map<String,String>>
+                        ("success" ,
+                                List.of(result.getMessage()) ,
+                                    Map.of("access_token" , jwt.generateAccessToken(loginDTO.getUsername()) ,
+                                            "refresh_token" , jwt.generateRefreshToken(loginDTO.getUsername()) )
+                        )
+                );
     }
 
 }
