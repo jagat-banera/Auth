@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class RefreshTokenController {
@@ -23,7 +24,7 @@ public class RefreshTokenController {
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<ApiResponse<String>> refresh(@Valid @RequestBody RefreshTokenDTO refreshToken){
+    public ResponseEntity<ApiResponse<Map<String,String>>> refresh(@Valid @RequestBody RefreshTokenDTO refreshToken){
 
         //Check if the Refresh token is valid or not
 
@@ -39,7 +40,7 @@ public class RefreshTokenController {
             return ResponseEntity
                     .ok()
                     .body(
-                            new ApiResponse<>("success" , List.of("Token Succesfully Generated") , accessToken)
+                            new ApiResponse<Map<String,String>>("success" , List.of("Token Succesfully Generated") , Map.of("access_token" , accessToken))
                     );
 
         }
