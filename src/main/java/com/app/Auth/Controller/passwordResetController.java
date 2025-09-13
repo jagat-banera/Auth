@@ -5,7 +5,7 @@ import com.app.Auth.DTOs.ResetPasswordDTO;
 import com.app.Auth.Services.PasswordResetService;
 import com.app.Auth.Utils.ApiResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

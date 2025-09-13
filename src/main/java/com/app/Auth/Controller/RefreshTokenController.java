@@ -4,7 +4,6 @@ import com.app.Auth.DTOs.RefreshTokenDTO;
 import com.app.Auth.Services.jwtService;
 import com.app.Auth.Utils.ApiResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

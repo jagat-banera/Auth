@@ -20,10 +20,6 @@ public class User implements UserDetails {
     private String username ;
     private String password ;
     private String role = "ROLE_ADMIN";
-
-
-
-
     private String email ;
 
     private boolean enabled = true ;
@@ -33,6 +29,8 @@ public class User implements UserDetails {
     private boolean account_non_locked = false ;
 
     private boolean credentials_non_expired = false ;
+
+    private boolean is_verified = false ;
 
     public User() {}
 
@@ -65,6 +63,13 @@ public class User implements UserDetails {
         return id;
     }
 
+    public boolean isIs_verified() {
+        return is_verified;
+    }
+
+    public void setIs_verified(boolean is_verified) {
+        this.is_verified = is_verified;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

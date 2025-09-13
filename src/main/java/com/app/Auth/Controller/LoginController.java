@@ -6,12 +6,10 @@ import com.app.Auth.DTOs.authResult;
 import com.app.Auth.Services.LoginService;
 import com.app.Auth.Services.jwtService;
 import com.app.Auth.Utils.ApiResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +33,7 @@ public class LoginController {
 
         // Check for Validation Errors
         if(bindingResult.hasErrors()){
-            List loginError = bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).toList();
+            List<String> loginError = bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).toList();
 
             return ResponseEntity.badRequest().body(new ApiResponse<Map<String,String>>("error" , loginError , null));
         }
@@ -54,7 +52,7 @@ public class LoginController {
                         ("success" ,
                                 List.of(result.getMessage()) ,
                                     Map.of("access_token" , jwt.generateAccessToken(loginDTO.getUsername()) ,
-                                            "refresh_token" , jwt.generateRefreshToken(loginDTO.getUsername()) )
+                                            "refresh_token" , jwt.generateRefreshToken(loginDTO.getUsername()))
                         )
                 );
     }
